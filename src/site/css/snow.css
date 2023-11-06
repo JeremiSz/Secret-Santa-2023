@@ -1,0 +1,64 @@
+*{
+    padding: 0;
+    margin:0;
+}
+:root{
+    --forground-color: #eee;
+    --background-color: #000122;
+    --background-active: #002244;
+}
+
+
+#background{
+    
+    width: 100%;
+    background: linear-gradient(var(--background-color), var(--background-active));
+    color: var(--forground-color);
+    height : 50%;
+    overflow: hidden;
+    
+    max-height: 475px;
+}
+
+#content{
+    color: var(--forground-color);
+    width: 100%;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 1;
+}
+
+.title,.subtitle{
+    text-align: center;
+
+}
+.title{
+    font-size: 9em;
+}
+.subtitle{
+    font-size: 2.5em;
+}
+
+.inputs{
+    text-align: center;
+    width: 75%;
+    margin: 20px auto 100px auto;
+}
+
+.singleInput{
+    display:block;
+    margin: 10px auto;
+    font-size: 3rem;
+}
+
+#submit{
+    border: none;
+    border-radius: 1rem 10rem 10rem 1rem;
+    padding: 5px 10px;
+    background-color: var(--background-color);
+    color: var(--forground-color);
+}
+#submit:active{
+    background-color: var(--background-active);
+}
