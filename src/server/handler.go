@@ -1,29 +1,28 @@
 package server
 
 import (
-	"errors"
 	"log"
 	"net/http"
-	"strconv"
+	"text/template"
 )
 
 type subSystem struct {
 	http.Server
-	wishlist [8]string
 }
 
 var (
-	vALID_CODES = [8]uint16{2350, 1151, 2322, 2453, 1034, 1945, 1606, 1587}
+	wishlists = Wishlist{[8][]string{{"test", "test"}}}
 )
 
 const (
-	rOOT_PATH       = "/"
-	lOGIN_PATH      = "/login/"
-	iD_MASK         = 7
+	rOOT_PATH  = "/"
+	lOGIN_PATH = "/login/"
+
 	sNOW_CSS_PATH   = "./site/css/snow.css"
 	iNDEX_HTML_PATH = "./site/html/index.html"
 	lOGIN_HTML_PATH = "./site/html/info.html"
 	eRROR_HTML_PATH = "./site/html/error.html"
+	iNFO_HTML_PATH  = "./site/html/info.html"
 )
 
 func NewServer() *subSystem {
@@ -34,7 +33,7 @@ func NewServer() *subSystem {
 	return &subSystem{Server: http.Server{
 		Addr:    ":8080",
 		Handler: router,
-	}, wishlist: [8]string{"", "", "", "", "", "", "", ""}}
+	}}
 }
 func staticViewProvider(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path[len(rOOT_PATH):]
@@ -50,47 +49,23 @@ func serveStatic(path string, w http.ResponseWriter, r *http.Request) {
 	}
 }
 func loginProvider(w http.ResponseWriter, r *http.Request) {
-
-	id, err := extractCode(r.FormValue("code"))
+	id, err := validateCode(r.FormValue("code"))
 	if err != nil {
 		http.ServeFile(w, r, eRROR_HTML_PATH)
 		log.Println(err)
 		return
 	}
+	log.Println(id)
+	data := wishlists.LoadWishlists(id)
 
-	//check if id is in valid group
-	{
-		i := 0
-		isValid := false
-		for i < len(vALID_CODES) && !isValid {
-			isValid = uint16(id) == vALID_CODES[i]
-			i++
-		}
-
-		if !isValid {
-			err = errors.New("invalid id")
-		}
-	}
-
+	template, err := template.ParseFiles(iNFO_HTML_PATH)
 	if err != nil {
 		http.ServeFile(w, r, eRROR_HTML_PATH)
 		log.Println(err)
 		return
 	}
+	log.Println(wishlists)
+	log.Println(data.User)
+	template.Execute(w, data)
 
-	//id = id & iD_MASK
-	http.ServeFile(w, r, lOGIN_HTML_PATH)
-
-}
-
-func extractCode(message string) (uint16, error) {
-	if len(message) < 5 {
-		return 0, errors.New("empty message")
-	}
-	digits := message[0:2] + message[3:5]
-	code, err := strconv.Atoi(digits)
-	if err != nil {
-		return 0, err
-	}
-	return uint16(code), nil
 }

@@ -161,13 +161,14 @@
     <div id="content">
         <h3>X's List</h3>
         <ul>
-            <li>Thing 1</li>
-            <li>Thing 2</li>
+            {{range .User}}
+            <li>{{.}}</li>
+            {{end}}
         </ul>
     </div>
     <form class="inputs">
         <label for="list" class="singleInput">Enter your code</label>
-        <input type="time" name="list" placeholder="text" id="list" class="singleInput">
+        <input type="time" name="list" placeholder="{{.target}}" id="list" class="singleInput">
         <button>Add item</button>
         <input type="submit" value="Login" class="singleInput" id="submit">
      </form>
