@@ -3,6 +3,7 @@ package server
 import (
 	"log"
 	"net/http"
+	"sync"
 	"text/template"
 )
 
@@ -11,12 +12,13 @@ type subSystem struct {
 }
 
 var (
-	wishlists = Wishlist{[8][]string{{"test", "test"}}}
+	wishlists = Wishlist{sync.RWMutex{}, [8][]string{{"test", "test"}}}
 )
 
 const (
 	rOOT_PATH  = "/"
 	lOGIN_PATH = "/login/"
+	dATA_PATH  = "/data/"
 
 	sNOW_CSS_PATH   = "./site/css/snow.css"
 	iNDEX_HTML_PATH = "./site/html/index.html"
@@ -29,6 +31,7 @@ func NewServer() *subSystem {
 	router := http.NewServeMux()
 	router.HandleFunc(rOOT_PATH, staticViewProvider)
 	router.HandleFunc(lOGIN_PATH, loginProvider)
+	router.HandleFunc(dATA_PATH, wishlistProvider)
 
 	return &subSystem{Server: http.Server{
 		Addr:    ":8080",
@@ -44,6 +47,8 @@ func serveStatic(path string, w http.ResponseWriter, r *http.Request) {
 	switch path {
 	case "snow.css":
 		http.ServeFile(w, r, "./site/css/snow.css")
+	case "info_page.js":
+		http.ServeFile(w, r, "./site/js/info_page.js")
 	default:
 		http.ServeFile(w, r, "./site/html/index.html")
 	}
@@ -64,8 +69,16 @@ func loginProvider(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	log.Println(wishlists)
-	log.Println(data.User)
 	template.Execute(w, data)
+}
 
+func wishlistProvider(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		log.Print("GET")
+	case "POST":
+		log.Print("POST")
+	default:
+		log.Print("DEFAULT")
+	}
 }

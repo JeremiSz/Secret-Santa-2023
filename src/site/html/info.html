@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
 <title>Secret Santa 2023</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="../snow.css">
+<script defer src="../info_page.js"></script>
 <body>
     <div id="background">
         <svg fill='none' viewbox='0 0 202 202' xmlns='http://www.w3.org/2000/svg'>
@@ -159,17 +161,24 @@
     </div>
     
     <div id="content">
-        <h3>X's List</h3>
+      <button>&#10227;</button>
+        <h3>{{.TargetName}}'s List</h3>
         <ul>
             {{range .User}}
             <li>{{.}}</li>
             {{end}}
         </ul>
     </div>
-    <form class="inputs">
-        <label for="list" class="singleInput">Enter your code</label>
-        <input type="time" name="list" placeholder="{{.target}}" id="list" class="singleInput">
-        <button>Add item</button>
-        <input type="submit" value="Login" class="singleInput" id="submit">
-     </form>
+    <div class="inputs" >
+        <label class="singleInput">Your List</label>
+        <div id="wishlist">
+        {{range .Target}}
+          <div class="singleInput wishlist-item">
+            <button>X</button><input type="text" name="list" placeholder="Enter item" value="{{.}}">
+          </div>
+        {{end}}
+        </div>
+        <button id="add-button">Add item</button>
+        <input type="submit" value="Save" class="singleInput" id="submit">
+      </div>
 </body>
