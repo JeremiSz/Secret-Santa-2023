@@ -7,10 +7,12 @@
     --background-color: #000122;
     --background-active: #002244;
 }
+.back{
+    background-color: var(--foreground-color);
+}
 
 
 #background{
-    
     width: 100%;
     background: linear-gradient(var(--background-color), var(--background-active));
     color: var(--forground-color);
@@ -61,4 +63,16 @@
 }
 #submit:active{
     background-color: var(--background-active);
+}
+
+@keyframes fade {
+    from {color: #009955;}
+    to {color:var(--forground-color);}
+    
+}
+
+.confirm{
+    color: var(--forground-color);
+    font-size: 3rem;
+    animation: alternate 1s infinite fade;
 }

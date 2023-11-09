@@ -2,15 +2,16 @@ package server
 
 import (
 	"log"
+	"strings"
 	"sync"
 )
 
 type Wishlist struct {
 	lock     sync.RWMutex
-	wishlist [8][]string
+	wishlist [8]string
 }
 type Data struct {
-	User       []string
+	User       string
 	Target     []string
 	TargetName string
 	UserId     uint8
@@ -21,7 +22,7 @@ var (
 	names   = []string{"Admin", "Alicja", "Jeremi", "Pjotrek", "Gosia", "Pawel", "Gosia", "Fletcher"}
 )
 
-func (w *Wishlist) SaveWishlist(id uint8, value []string) {
+func (w *Wishlist) SaveWishlist(id uint8, value string) {
 	w.lock.Lock()
 	defer w.lock.Unlock()
 	if id > 7 {
@@ -39,7 +40,10 @@ func (w *Wishlist) LoadWishlists(id uint8) Data {
 		return Data{}
 	}
 	targetId := findTarget(id)
-	return Data{w.wishlist[id], w.wishlist[targetId], names[targetId], id}
+
+	list := w.wishlist[targetId]
+	items := strings.Split(list, "\n")
+	return Data{w.wishlist[id], items, names[targetId], id}
 }
 
 func findTarget(id uint8) uint8 {

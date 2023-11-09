@@ -4,7 +4,6 @@
 <title>Secret Santa 2023</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="../snow.css">
-<script defer src="../info_page.js"></script>
 <script src="https://unpkg.com/htmx.org@1.9.8"></script>
 <body>
     <div id="background">
@@ -170,16 +169,13 @@
             {{end}}
         </ul>
     </div>
-    <form class="inputs" hx-post="/data/" hx-target="none">
+    <form class="inputs back" hx-post="/data/" hx-target="this" hx-swap="none">
+    <!--<form class="inputs" action="/data/" method="post">-->
         <label class="singleInput">Your List</label>
-        <div id="wishlist">
-        {{range $i, $a := .User}}
-          <div class="singleInput wishlist-item">
-            <button>X</button><input type="text" name="list" placeholder="Enter item" value="{{$a}}" class="list-entry">
-          </div>
-        {{end}}
-        </div>
-        <button id="add-button">Add item</button>
+        <input type="hidden" name="code" value="{{.UserId}}">
+        <textarea name="list" placeholder="Enter item" class="list-entry">{{.User}}</textarea>
         <input type="submit" value="Save" class="singleInput" id="submit">
+        <p class="confirm htmx-indicator">&#10004;</p>
+        
     </form>
 </body>

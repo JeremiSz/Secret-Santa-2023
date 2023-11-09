@@ -6,7 +6,7 @@ import (
 )
 
 func TestLoad(t *testing.T) {
-	wishlist := Wishlist{sync.RWMutex{}, [8][]string{{"Best", "test"}}}
+	wishlist := Wishlist{sync.RWMutex{}, [8]string{"Best\ntest"}}
 	data := wishlist.LoadWishlists(0)
 	if data.TargetName != "Admin" {
 		t.Error("Expected Admin, got ", data.TargetName)
@@ -20,8 +20,8 @@ func TestLoad(t *testing.T) {
 }
 
 func TestSave(t *testing.T) {
-	wishlist := Wishlist{sync.RWMutex{}, [8][]string{{"Best", "test"}}}
-	wishlist.SaveWishlist(0, []string{"test"})
+	wishlist := Wishlist{sync.RWMutex{}, [8]string{"Best\ntest"}}
+	wishlist.SaveWishlist(0, "test")
 	data := wishlist.LoadWishlists(0)
 	if data.TargetName != "Admin" {
 		t.Error("Expected Admin, got ", data.TargetName)
@@ -35,7 +35,7 @@ func TestSave(t *testing.T) {
 }
 
 func TestLoadInvalid(t *testing.T) {
-	wishlist := Wishlist{sync.RWMutex{}, [8][]string{{"Best", "test"}}}
+	wishlist := Wishlist{sync.RWMutex{}, [8]string{"Best\ntest"}}
 	data := wishlist.LoadWishlists(8)
 	if data.TargetName != "" {
 		t.Error("Expected empty, got ", data.TargetName)
@@ -44,8 +44,8 @@ func TestLoadInvalid(t *testing.T) {
 }
 
 func TestSaveInvalid(t *testing.T) {
-	wishlist := Wishlist{sync.RWMutex{}, [8][]string{{"Best", "test"}}}
-	wishlist.SaveWishlist(8, []string{"test"})
+	wishlist := Wishlist{sync.RWMutex{}, [8]string{"Best\ntest"}}
+	wishlist.SaveWishlist(8, "test")
 	data := wishlist.LoadWishlists(8)
 	if data.TargetName != "" {
 		t.Error("Expected empty, got ", data.TargetName)

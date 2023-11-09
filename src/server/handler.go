@@ -13,7 +13,7 @@ type subSystem struct {
 }
 
 var (
-	wishlists = Wishlist{sync.RWMutex{}, [8][]string{{"Best", "test"}}}
+	wishlists = Wishlist{sync.RWMutex{}, [8]string{"Best\ntest"}}
 )
 
 const (
@@ -28,6 +28,7 @@ const (
 	iNFO_HTML_PATH        = "./site/html/info.html"
 	eRROR_MINI_HTML_PATH  = "./site/html/error_mini.html"
 	tARGET_LIST_HTML_PATH = "./site/html/target_list.html"
+	cONFIRM_HTML_PATH     = "./site/html/confirm.html"
 )
 
 func NewServer() *subSystem {
@@ -50,8 +51,6 @@ func serveStatic(path string, w http.ResponseWriter, r *http.Request) {
 	switch path {
 	case "snow.css":
 		http.ServeFile(w, r, "./site/css/snow.css")
-	case "info_page.js":
-		http.ServeFile(w, r, "./site/js/info_page.js")
 	default:
 		http.ServeFile(w, r, "./site/html/index.html")
 	}
@@ -76,7 +75,6 @@ func loginProvider(w http.ResponseWriter, r *http.Request) {
 
 func wishlistProvider(w http.ResponseWriter, r *http.Request) {
 	log.Println("wishlists" + r.Method)
-	log.Println(r)
 	switch r.Method {
 	case "GET":
 		message := r.FormValue("code")
@@ -95,7 +93,16 @@ func wishlistProvider(w http.ResponseWriter, r *http.Request) {
 		}
 		template.Execute(w, data)
 	case "POST":
-		log.Print("POST")
+		message := r.FormValue("code")
+		id, err := strconv.Atoi(message)
+		if err != nil {
+			http.ServeFile(w, r, eRROR_MINI_HTML_PATH)
+			log.Println(err)
+			return
+		}
+		log.Println("got here")
+		wishlists.SaveWishlist(uint8(id), r.FormValue("list"))
+		http.ServeFile(w, r, cONFIRM_HTML_PATH)
 	default:
 		http.ServeFile(w, r, eRROR_HTML_PATH)
 	}
