@@ -12,7 +12,7 @@
 }
 
 
-#background{
+#background, .background{
     width: 100%;
     background: linear-gradient(var(--background-color), var(--background-active));
     color: var(--forground-color);
@@ -20,6 +20,12 @@
     overflow: hidden;
     
     max-height: 475px;
+}
+.background{
+    width: 100%;
+    background: linear-gradient(var(--background-color), var(--background-active));
+    color: var(--forground-color);
+    padding: 10px 0;
 }
 
 #content{
@@ -29,6 +35,45 @@
     top:0;
     left:0;
     z-index: 1;
+}
+
+.buttoned-heading{
+    font-size: 3em;
+    text-align: right;
+    width: 55%;
+    margin:10px 0 10px 0;
+    display: inline;
+}
+
+.heading-button{
+    font-size: 2em;
+    text-align: left;
+    margin: 10px 0 10px 10px;
+    display: inline;
+    border: none;
+    background-color: transparent;
+    color: var(--forground-color)
+}
+
+.list-expander > li{
+    font-size: 2em;
+    padding: .5em;
+}
+
+.list-entry{
+    font-size: 2em;
+    width:75%;
+    margin: 10px auto;
+    height: 5em;
+}
+
+.heading-container{
+    text-align: center;
+    margin: 10px auto
+}
+
+.post-text{
+    display: inline;
 }
 
 .title,.subtitle{
@@ -45,7 +90,7 @@
 .inputs{
     text-align: center;
     width: 75%;
-    margin: 20px auto 100px auto;
+    margin: 50px auto 100px auto;
 }
 
 .singleInput{
@@ -75,4 +120,14 @@
     color: var(--forground-color);
     font-size: 3rem;
     animation: alternate 1s infinite fade;
+}
+
+@media screen and (max-width: 500px) {
+    .title{
+        font-size: 6em;
+    }
+    .subtitle{
+        padding-top: 2em;
+        font-size: 2em;
+    }
 }

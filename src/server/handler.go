@@ -4,8 +4,10 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"sync"
 	"text/template"
+	"time"
 )
 
 type subSystem struct {
@@ -102,7 +104,8 @@ func wishlistProvider(w http.ResponseWriter, r *http.Request) {
 		}
 		log.Println("got here")
 		wishlists.SaveWishlist(uint8(id), r.FormValue("list"))
-		http.ServeFile(w, r, cONFIRM_HTML_PATH)
+		readseeker := strings.NewReader("Wishlist saved!")
+		http.ServeContent(w, r, "test", time.Now(), readseeker)
 	default:
 		http.ServeFile(w, r, eRROR_HTML_PATH)
 	}
