@@ -14,7 +14,7 @@ const (
 )
 
 func extractCode(message string) (uint16, error) {
-	if len(message) < 5 {
+	if len(message) != 5 {
 		return 0, errors.New("empty message")
 	}
 	digits := message[0:2] + message[3:5]
