@@ -18,7 +18,7 @@ let wishlist = document.getElementById("wishlist");
     
 }
 
-function createButton(){
+function createButton(name){
     let wishlistItemTemplate = document.createElement("div");
     wishlistItemTemplate.classList.add("singleInput","wishlist-item");
     let button = document.createElement("button");

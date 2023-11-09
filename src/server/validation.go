@@ -2,7 +2,6 @@ package server
 
 import (
 	"errors"
-	"log"
 	"strconv"
 )
 
@@ -28,7 +27,6 @@ func extractCode(message string) (uint16, error) {
 
 func validateCode(code string) (uint8, error) {
 	id, err := extractCode(code)
-	log.Println(id & iD_MASK)
 	if err != nil {
 		return 0, err
 	}
@@ -45,6 +43,5 @@ func validateCode(code string) (uint8, error) {
 			err = errors.New("invalid id")
 		}
 	}
-
 	return uint8(id & iD_MASK), err
 }

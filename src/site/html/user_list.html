@@ -1,0 +1,12 @@
+<form class="inputs" hx-post="/data/" hx-target="none">
+    <label class="singleInput">Your List</label>
+    <div id="wishlist">
+    {{range .User}}
+      <div class="singleInput wishlist-item">
+        <button>X</button><input type="text" name="list" placeholder="Enter item" value="{{.}}" class="list-entry">
+      </div>
+    {{end}}
+    </div>
+    <button id="add-button">Add item</button>
+    <input type="submit" value="Save" class="singleInput" id="submit">
+</form>

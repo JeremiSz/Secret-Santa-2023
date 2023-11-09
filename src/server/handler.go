@@ -3,6 +3,7 @@ package server
 import (
 	"log"
 	"net/http"
+	"strconv"
 	"sync"
 	"text/template"
 )
@@ -12,7 +13,7 @@ type subSystem struct {
 }
 
 var (
-	wishlists = Wishlist{sync.RWMutex{}, [8][]string{{"test", "test"}}}
+	wishlists = Wishlist{sync.RWMutex{}, [8][]string{{"Best", "test"}}}
 )
 
 const (
@@ -20,11 +21,13 @@ const (
 	lOGIN_PATH = "/login/"
 	dATA_PATH  = "/data/"
 
-	sNOW_CSS_PATH   = "./site/css/snow.css"
-	iNDEX_HTML_PATH = "./site/html/index.html"
-	lOGIN_HTML_PATH = "./site/html/info.html"
-	eRROR_HTML_PATH = "./site/html/error.html"
-	iNFO_HTML_PATH  = "./site/html/info.html"
+	sNOW_CSS_PATH         = "./site/css/snow.css"
+	iNDEX_HTML_PATH       = "./site/html/index.html"
+	lOGIN_HTML_PATH       = "./site/html/info.html"
+	eRROR_HTML_PATH       = "./site/html/error.html"
+	iNFO_HTML_PATH        = "./site/html/info.html"
+	eRROR_MINI_HTML_PATH  = "./site/html/error_mini.html"
+	tARGET_LIST_HTML_PATH = "./site/html/target_list.html"
 )
 
 func NewServer() *subSystem {
@@ -60,7 +63,6 @@ func loginProvider(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	log.Println(id)
 	data := wishlists.LoadWishlists(id)
 
 	template, err := template.ParseFiles(iNFO_HTML_PATH)
@@ -73,12 +75,28 @@ func loginProvider(w http.ResponseWriter, r *http.Request) {
 }
 
 func wishlistProvider(w http.ResponseWriter, r *http.Request) {
+	log.Println("wishlists" + r.Method)
+	log.Println(r)
 	switch r.Method {
 	case "GET":
-		log.Print("GET")
+		message := r.FormValue("code")
+		id, err := strconv.Atoi(message)
+		if err != nil {
+			http.ServeFile(w, r, eRROR_MINI_HTML_PATH)
+			log.Println(err)
+			return
+		}
+		data := wishlists.LoadWishlists(uint8(id))
+		template, err := template.ParseFiles(tARGET_LIST_HTML_PATH)
+		if err != nil {
+			http.ServeFile(w, r, eRROR_MINI_HTML_PATH)
+			log.Println(err)
+			return
+		}
+		template.Execute(w, data)
 	case "POST":
 		log.Print("POST")
 	default:
-		log.Print("DEFAULT")
+		http.ServeFile(w, r, eRROR_HTML_PATH)
 	}
 }

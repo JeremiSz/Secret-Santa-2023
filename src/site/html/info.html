@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="../snow.css">
 <script defer src="../info_page.js"></script>
+<script src="https://unpkg.com/htmx.org@1.9.8"></script>
 <body>
     <div id="background">
         <svg fill='none' viewbox='0 0 202 202' xmlns='http://www.w3.org/2000/svg'>
@@ -161,24 +162,24 @@
     </div>
     
     <div id="content">
-      <button>&#10227;</button>
+      <button hx-trigger="click" hx-target="#targetList" hx-get="/data/?code={{.UserId}}">&#10227;</button>
         <h3>{{.TargetName}}'s List</h3>
-        <ul>
-            {{range .User}}
+        <ul id="targetList">
+            {{range .Target}}
             <li>{{.}}</li>
             {{end}}
         </ul>
     </div>
-    <div class="inputs" >
+    <form class="inputs" hx-post="/data/" hx-target="none">
         <label class="singleInput">Your List</label>
         <div id="wishlist">
-        {{range .Target}}
+        {{range $i, $a := .User}}
           <div class="singleInput wishlist-item">
-            <button>X</button><input type="text" name="list" placeholder="Enter item" value="{{.}}">
+            <button>X</button><input type="text" name="list" placeholder="Enter item" value="{{$a}}" class="list-entry">
           </div>
         {{end}}
         </div>
         <button id="add-button">Add item</button>
         <input type="submit" value="Save" class="singleInput" id="submit">
-      </div>
+    </form>
 </body>
