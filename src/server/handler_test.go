@@ -5,7 +5,7 @@ import (
 )
 
 func TestCreatingServer(t *testing.T) {
-	server := NewServer()
+	server := NewServer("8080")
 	if server == nil {
 		t.Error("server not created")
 		return
