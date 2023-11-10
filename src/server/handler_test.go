@@ -1,8 +1,6 @@
 package server
 
 import (
-	"net/http"
-	"strconv"
 	"testing"
 )
 
@@ -18,22 +16,4 @@ func TestCreatingServer(t *testing.T) {
 	if server.Handler == nil {
 		t.Error("server handler not set")
 	}
-}
-
-type testWriter struct {
-	header http.Header
-	body   []byte
-	size   int
-}
-
-func (t *testWriter) Header() http.Header {
-	return t.header
-}
-func (t *testWriter) Write([]byte) (int, error) {
-	t.body = []byte("test")
-	t.size = len(t.body)
-	return t.size, nil
-}
-func (t *testWriter) WriteHeader(statusCode int) {
-	t.header.Add("status", strconv.Itoa(statusCode))
 }
