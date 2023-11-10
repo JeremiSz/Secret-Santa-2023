@@ -37,7 +37,7 @@ func TestValidateCode(t *testing.T) {
 	if id != 2 {
 		t.Error("invalid id returned")
 	}
-	id, _ = validateCode("24:35")
+	id, _ = validateCode("23:23")
 	if id != 3 {
 		t.Error("invalid id returned")
 	}
