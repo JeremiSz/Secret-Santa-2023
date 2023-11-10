@@ -14,8 +14,12 @@ type subSystem struct {
 	http.Server
 }
 
+const (
+	PEOPLE_COUNT = 8
+)
+
 var (
-	wishlists = Wishlist{sync.RWMutex{}, [8]string{"Best\ntest"}}
+	wishlists = Wishlist{sync.RWMutex{}, [PEOPLE_COUNT]string{"Best\ntest"}}
 )
 
 const (
@@ -33,14 +37,14 @@ const (
 	cONFIRM_HTML_PATH     = "./site/html/confirm.html"
 )
 
-func NewServer() *subSystem {
+func NewServer(port string) *subSystem {
 	router := http.NewServeMux()
 	router.HandleFunc(rOOT_PATH, staticViewProvider)
 	router.HandleFunc(lOGIN_PATH, loginProvider)
 	router.HandleFunc(dATA_PATH, wishlistProvider)
 
 	return &subSystem{Server: http.Server{
-		Addr:    ":8080",
+		Addr:    ":" + string(port),
 		Handler: router,
 	}}
 }

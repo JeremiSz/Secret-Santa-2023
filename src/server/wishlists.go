@@ -24,7 +24,7 @@ type Data struct {
 
 var (
 	mapping = map[uint8]uint8{0: 0, 1: 2, 2: 3, 3: 1, 4: 7, 5: 6, 6: 4, 7: 5}
-	names   = []string{"Admin", "Alicja", "Jeremi", "Pjotrek", "Gosia", "Pawel", "Gosia", "Fletcher"}
+	names   = [PEOPLE_COUNT]string{"Admin", "Alicja", "Jeremi", "Pjotrek", "Gosia", "Pawel", "Gosia", "Fletcher"}
 )
 
 func (w *Wishlist) SaveWishlist(id uint8, value string) {
@@ -82,7 +82,7 @@ func (w *Wishlist) loadFromFile() {
 	f.Read(b)
 	s := string(b)
 	values := strings.Split(s, ":")
-	for i := 0; i < 8; i++ {
+	for i := 0; i < PEOPLE_COUNT; i++ {
 		w.wishlist[i] = values[i]
 	}
 }

@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	vALID_CODES = [8]uint16{2320, 1121, 2322, 2435, 1036, 1949, 1606, 1559}
+	vALID_CODES = [PEOPLE_COUNT]uint16{2320, 1121, 2322, 2435, 1036, 1949, 1606, 1559}
 )
 
 const (
