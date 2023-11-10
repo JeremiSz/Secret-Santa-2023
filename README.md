@@ -1,6 +1,8 @@
 # Secret Santa 2023
 This server provides a simple method to deceminate secret santa targets and allow for sharing of wishlists without revealing shoppers.
 
+It is built of a Golang backend and HTMX front end.
+
 # Building & Running
 
 ## Building
@@ -60,5 +62,8 @@ Fill the names array with your members' names.
 
 To change the amount of people, change the *PEOPLE_COUNT* variable in **handler.go**.
 
+# Note 
+This is a project I made for my family. The CSS does not look great and the backend saves to a file. That is because for my purposes, I don't need anything more. 
+If you would like to improve it, go ahead and maybe even push a pull request.
 
 
