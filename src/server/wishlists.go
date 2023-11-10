@@ -24,7 +24,7 @@ type Data struct {
 
 var (
 	mapping = map[uint8]uint8{0: 0, 1: 2, 2: 3, 3: 1, 4: 7, 5: 6, 6: 4, 7: 5}
-	names   = [PEOPLE_COUNT]string{"Admin", "Alicja", "Jeremi", "Pjotrek", "Gosia", "Pawel", "Gosia", "Fletcher"}
+	names   = [PEOPLE_COUNT]string{"Admin", "Alex", "Shay", "Rowan", "Remy", "Kit", "Azriel", "Sage"}
 )
 
 func (w *Wishlist) SaveWishlist(id uint8, value string) {
