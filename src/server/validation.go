@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	vALID_CODES = [PEOPLE_COUNT]uint16{2320, 1121, 2322, 2435, 1036, 1949, 1606, 1559}
+	vALID_CODES = [PEOPLE_COUNT]uint16{2320, 1121, 2322, 2323, 1036, 1949, 1606, 1559}
 )
 
 const (
@@ -35,7 +35,7 @@ func validateCode(code string) (uint8, error) {
 		i := 0
 		isValid := false
 		for i < len(vALID_CODES) && !isValid {
-			isValid = uint16(id) == vALID_CODES[i]
+			isValid = id == vALID_CODES[i]
 			i++
 		}
 
