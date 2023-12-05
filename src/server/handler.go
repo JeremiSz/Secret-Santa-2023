@@ -15,7 +15,7 @@ type subSystem struct {
 }
 
 const (
-	PEOPLE_COUNT = 8
+	PEOPLE_COUNT = 9
 )
 
 var (

@@ -2,63 +2,41 @@ package server
 
 import "testing"
 
-func TestExtractCode(t *testing.T) {
-	_, err := extractCode("23:200")
-	if err == nil {
-		t.Error("too long message not detected")
-	}
-	_, err = extractCode("23:2")
-	if err == nil {
-		t.Error("too short message not detected")
-	}
-	_, err = extractCode("23:2a")
-	if err == nil {
-		t.Error("non-digit character not detected")
-	}
-	id, err := extractCode("23:20")
-	if err != nil {
-		t.Error("valid code not detected")
-	}
-	if id != 2320 {
-		t.Error("invalid code returned")
-	}
-}
-
 func TestValidateCode(t *testing.T) {
-	id, _ := validateCode("23:20")
+	id, _ := validateCode("Elf")
 	if id != 0 {
-		t.Error("invalid id returned")
+		t.Error("invalid id returned", id, "expected", 0)
 	}
-	id, _ = validateCode("11:21")
+	id, _ = validateCode("Gingerbread")
 	if id != 1 {
-		t.Error("invalid id returned")
+		t.Error("invalid id returned", id, "expected", 1)
 	}
-	id, _ = validateCode("23:22")
+	id, _ = validateCode("Santa")
 	if id != 2 {
-		t.Error("invalid id returned")
+		t.Error("invalid id returned", id, "expected", 2)
 	}
-	id, _ = validateCode("23:23")
+	id, _ = validateCode("Mrs. Clause")
 	if id != 3 {
-		t.Error("invalid id returned")
+		t.Error("invalid id returned", id, "expected", 3)
 	}
-	id, _ = validateCode("10:36")
+	id, _ = validateCode("Raindeer")
 	if id != 4 {
-		t.Error("invalid id returned")
+		t.Error("invalid id returned", id, "expected", 4)
 	}
-	id, _ = validateCode("19:49")
+	id, _ = validateCode("Fairy lights")
 	if id != 5 {
-		t.Error("invalid id returned")
+		t.Error("invalid id returned", id, "expected", 5)
 	}
-	id, _ = validateCode("16:06")
+	id, _ = validateCode("Carol")
 	if id != 6 {
-		t.Error("invalid id returned")
+		t.Error("invalid id returned", id, "expected", 6)
 	}
-	id, _ = validateCode("15:59")
+	id, _ = validateCode("Tinsel")
 	if id != 7 {
-		t.Error("invalid id returned")
+		t.Error("invalid id returned", id, "expected", 7)
 	}
-	_, err := validateCode("99:99")
-	if err == nil {
-		t.Error("invalid code not detected")
+	id, _ = validateCode("Mistletoe")
+	if id != 8 {
+		t.Error("invalid id returned", id, "expected", 8)
 	}
 }

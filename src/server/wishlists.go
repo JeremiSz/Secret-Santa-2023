@@ -13,7 +13,7 @@ const (
 
 type Wishlist struct {
 	lock     sync.RWMutex
-	wishlist [8]string
+	wishlist [PEOPLE_COUNT]string
 }
 type Data struct {
 	User       string
@@ -23,8 +23,7 @@ type Data struct {
 }
 
 var (
-	mapping = map[uint8]uint8{0: 0, 1: 2, 2: 3, 3: 1, 4: 7, 5: 6, 6: 4, 7: 5}
-	names   = [PEOPLE_COUNT]string{"Admin", "Alex", "Shay", "Rowan", "Remy", "Kit", "Azriel", "Sage"}
+	names = [PEOPLE_COUNT]string{"Admin", "Alex", "Shay", "Rowan", "Remy", "Kit", "Azriel", "Sage"}
 )
 
 func (w *Wishlist) SaveWishlist(id uint8, value string) {
@@ -55,7 +54,13 @@ func (w *Wishlist) LoadWishlists(id uint8) Data {
 }
 
 func findTarget(id uint8) uint8 {
-	return mapping[id]
+	if id == 0 {
+		return 0
+	}
+	id = id - 1
+	id = id + 2
+	id = id % (PEOPLE_COUNT - 1)
+	return id + 1
 }
 
 func (w *Wishlist) saveToFile() {
