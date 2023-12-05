@@ -39,9 +39,6 @@ func (w *Wishlist) SaveWishlist(id uint8, value string) {
 }
 
 func (w *Wishlist) LoadWishlists(id uint8) Data {
-	if id > 7 {
-		return Data{}
-	}
 	w.lock.RLock()
 	defer w.lock.RUnlock()
 
